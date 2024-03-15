@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+    <h1 id="userName"></h1><br>
+    <div id="chat">
+        <ul id="messages"></ul>
+        <form onsubmit="return sendMessage()">
+            <input id="message" autocomplete="off" /><button>Send</button>
+        </form>
+    </div>
+
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        let userName = decodeURIComponent(new URLSearchParams(window.location.search).get('username'));
+    
+        console.log('Current username:', userName);
+
+        socket.emit('user joined', userName);
+    
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            socket.emit('chat message', `${userName}: ${message}`);
+            document.getElementById('message').value = '';
+            return false;
+        }
+    
+        document.getElementById('userName').textContent = `Hello ${userName}`;
+        document.getElementById('chat').style.display = 'block';
+    
+        socket.on('user joined', function(userName) {
+        console.log('New user joined:', userName);
+        const li = document.createElement('li');
+        li.textContent = `${userName} joined`;
+        li.classList.add('joining-message');
+        document.getElementById('messages').appendChild(li);
+        });
+        
+        socket.on('chat message', function(msg) {
+            const li = document.createElement('li');
+            li.textContent = msg;
+            document.getElementById('messages').appendChild(li);
+        });
+    </script>
+</body>
+</html>

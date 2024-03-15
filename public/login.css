@@ -1,0 +1,38 @@
+body {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+input[type="text"], button {
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin-right: 30px;
+}
+
+button {
+    background-color: #ff6d0c;
+    color: #fff;
+    border: 2px solid black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-right: 250px;
+}
+
+button:hover {
+    background-color: #b45400;
+}
